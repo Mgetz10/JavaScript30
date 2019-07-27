@@ -95,60 +95,107 @@
     </div>
 
     <script>
-      const checkboxes = [...document.querySelectorAll("input")];
-      let shiftIsDown = false,
-        firstBoxChecked,
-        secondBoxChecked;
+      const checkboxes = document.querySelectorAll(
+        '.inbox input[type="checkbox"]'
+      );
+      let lastChecked;
 
-      function shiftListen(e) {
-        if (e.keyCode === 16) shiftIsDown = true;
-      }
-      function unShift() {
-        if (shiftIsDown) {
-          shiftIsDown = false;
-          firstBoxChecked = undefined;
-          secondBoxChecked = undefined;
-        }
-      }
-
-      window.addEventListener("keydown", shiftListen);
-      window.addEventListener("keyup", unShift);
-
-      function highlightPossible(e) {
-        if (shiftIsDown) {
-          firstBoxChecked = e.target;
-          console.log("shift is down");
-        }
-      }
-
-      function hightlightReady(e) {
-        highlightPossible(e);
-        if (secondBoxChecked) {
-          console.log("second box is checked");
-          secondBoxChecked = e.target;
-          return true;
-        }
-      }
-
-      function highlightConditions(e) {
-        if (hightlightReady(e)) {
-          let firstIndex = checkboxes.indexOf(firstBoxChecked),
-            secondIndex = checkboxes.indexOf(secondBoxChecked);
-          console.log("highlight ready");
+      function handleCheck(e) {
+        //check if they had the shift key down
+        //check if they are checking it
+        let inBetween = false;
+        if (e.shiftKey && this.checked) {
+          //go ahead
+          //loop over everysingle checkbox
           checkboxes.forEach((checkbox, index) => {
-            if (
-              (index < firstIndex && index > secondIndex) ||
-              (index > firstIndex && index < secondIndex)
-            ) {
-              console.log(checkbox);
+            if (checkbox === this || checkbox === lastChecked) {
+              inBetween = !inBetween;
+            }
+            if (inBetween) {
+              checkbox.checked = true;
             }
           });
         }
+        lastChecked = e.target;
       }
-      // console.log(shiftIsDown, firstBoxChecked, );
-      checkboxes.forEach(checkbx => {
-        checkbx.addEventListener("click", highlightConditions);
-      });
+      checkboxes.forEach(checkbox =>
+        checkbox.addEventListener("click", handleCheck)
+      );
+
+      // --------------------------------------------------------------
+
+      // //get checkboxes
+      // const checkboxes = [...document.querySelectorAll("input")];
+
+      // // create vars
+      // let shiftIsDown = false,
+      //   firstBoxChecked,
+      //   secondBoxChecked;
+
+      // // set shiftIsDown if shift is down
+      // function shiftListen(e) {
+      //   if (e.keyCode === 16) shiftIsDown = true;
+      // }
+
+      // // unset shiftIsDown and empty vars if shift is up
+      // function unShift() {
+      //   if (shiftIsDown) {
+      //     shiftIsDown = false;
+      //     firstBoxChecked = undefined;
+      //     secondBoxChecked = undefined;
+      //   }
+      // }
+
+      // //run shiftListen and unShift on keydown and keyup, respectively
+      // window.addEventListener("keydown", shiftListen);
+      // window.addEventListener("keyup", unShift);
+
+      // function highlightPossible(e) {
+      //   if (!firstBoxChecked || !shiftIsDown) {
+      //     firstBoxChecked = e.target;
+      //     console.log("shift is down");
+      //   }
+      // }
+
+      // function hightlightReady(e) {
+      //   highlightPossible(e);
+      //   secondBoxChecked = e.target;
+      //   if (secondBoxChecked && shiftIsDown) {
+      //     checkboxes.forEach((checkbox, index) => {
+      //       let firstIdx = checkboxes.indexOf(firstBoxChecked);
+      //       let secondIdx = checkboxes.indexOf(secondBoxChecked);
+
+      //       if (index > firstIdx && index < secondIdx) {
+      //         checkbox.checked = true;
+      //       }
+
+      //       if (index < firstIdx && index > secondIdx) {
+      //         checkbox.checked = true;
+      //       }
+      //     });
+      //     return true;
+      //   }
+      // }
+
+      // function highlightConditions(e) {
+      //   if (hightlightReady(e)) {
+      //     let firstIndex = checkboxes.indexOf(firstBoxChecked),
+      //       secondIndex = checkboxes.indexOf(secondBoxChecked);
+      //     console.log("highlight ready");
+      //     checkboxes.forEach((checkbox, index) => {
+      //       if (
+      //         (index < firstIndex && index > secondIndex) ||
+      //         (index > firstIndex && index < secondIndex)
+      //       ) {
+      //         console.log(checkbox);
+      //       }
+      //     });
+      //   }
+      // }
+      // // console.log(shiftIsDown, firstBoxChecked, );
+      // checkboxes.forEach(checkbx => {
+      //   checkbx.addEventListener("click", highlightConditions);
+      // });
     </script>
   </body>
 </html>
