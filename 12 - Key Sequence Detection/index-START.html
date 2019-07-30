@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Key Detection</title>
-  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
-</head>
-<body>
-<script>
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <script
+      type="text/javascript"
+      src="http://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      const pressed = [];
+      const secretCode = 'monroe';
+
+      window.addEventListener('keyup', e => {
+        console.log(e.key);
+        pressed.push(e.key);
+        pressed.splice(0, pressed.length - secretCode.length);
+        console.log(pressed);
+      });
+      // ------------------------------------------------------
+      // let pressed = [];
+      // let konamiCode = [
+      //   'ArrowUp',
+      //   'ArrowUp',
+      //   'ArrowDown',
+      //   'ArrowDown',
+      //   'ArrowLeft',
+      //   'ArrowRight',
+      //   'ArrowLeft',
+      //   'ArrowRight',
+      //   'b',
+      //   'a'
+      // ];
+
+      // let codeCheck = (codeToCheck, keyCode, e) => {
+      //   // push new code to codecheck
+      //   codeToCheck.push(e.key);
+
+      //   // does letter match codetocheck + 1
+      //   if (codeToCheck.length > keyCode.length) codeToCheck.shift();
+      //   let matchResult = keyCode.every(
+      //     (letter, index) => codeToCheck[index] === letter
+      //   );
+
+      //   console.log(codeToCheck, matchResult);
+      // };
+
+      // window.addEventListener('keydown', e =>
+      //   codeCheck(userCode, konamiCode, e)
+      // );
+    </script>
+  </body>
 </html>
